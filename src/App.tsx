@@ -1,21 +1,36 @@
 import { useEffect, useState } from 'react'
 import { Header, Aside, Table } from './components'
 
-import { getList } from './requests/getList'
+import {
+  LocalStorageService,
+  DataService,
+} from './components/Table/Table.service'
 
 import './App.style.scss'
 
 export function App() {
-  const localStorageData = localStorage.getItem('data')
-  const [data, setData] = useState(
-    localStorageData ? JSON.parse(localStorageData) : []
-  )
-
+  const [data, setData] = useState([])
   useEffect(() => {
-    getList()
-      .then((data) => setData(data))
-      .catch((err) => console.log(err))
-  }, [localStorageData])
+    const fetchData = async () => {
+      let storageData = LocalStorageService.getItem('data')
+
+      if (!storageData || storageData.length === 0) {
+        try {
+          const response = await DataService.getList()
+          if (response) {
+            storageData = response
+            LocalStorageService.setItem('data', storageData)
+          }
+        } catch (error) {
+          console.error(error)
+        }
+      }
+
+      setData(storageData)
+    }
+
+    fetchData()
+  }, [])
 
   return (
     <>

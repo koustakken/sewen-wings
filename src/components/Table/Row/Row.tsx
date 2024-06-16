@@ -8,6 +8,7 @@ import '../Table.style.scss'
 
 interface RowProps {
   data: Items
+  columns: { key: string; title: string }[]
   level: number
   handleAdd: (id: number, data: Items) => void
   handleDelete: (id: number) => void
@@ -15,7 +16,14 @@ interface RowProps {
 }
 
 export default function renderRows(props: RowProps) {
-  const { data, level = 0, handleAdd, handleDelete, handleEdit } = props
+  const {
+    data,
+    level = 0,
+    handleAdd,
+    handleDelete,
+    handleEdit,
+    columns,
+  } = props
   const [hoveredRow, setHoveredRow] = useState(null)
   const [editingData, setEditingData] = useState({ ...data })
   const [editableField, setEditableField] = useState<number | null>(null)
@@ -49,14 +57,6 @@ export default function renderRows(props: RowProps) {
       setEditableField(null)
     }
   }
-
-  const columns = [
-    { key: 'rowName', title: 'Row Name' },
-    { key: 'salary', title: 'Salary' },
-    { key: 'equipmentCosts', title: 'Equipment Costs' },
-    { key: 'overheads', title: 'Overheads' },
-    { key: 'estimatedProfit', title: 'Estimated Profit' },
-  ]
 
   return (
     <React.Fragment key={data.id}>
@@ -107,6 +107,7 @@ export default function renderRows(props: RowProps) {
             handleAdd,
             handleDelete,
             handleEdit,
+            columns,
           })
         )}
     </React.Fragment>

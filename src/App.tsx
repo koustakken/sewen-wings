@@ -11,6 +11,13 @@ import './App.style.scss'
 
 export function App() {
   const [data, setData] = useState([])
+  const columns = [
+    { key: 'rowName', title: 'Наименование работ' },
+    { key: 'salary', title: 'Основная з/п' },
+    { key: 'equipmentCosts', title: 'Оборудование' },
+    { key: 'overheads', title: 'Накладные расходы' },
+    { key: 'estimatedProfit', title: 'Сметная прибыль' },
+  ]
 
   const handleAdd = async (id: number, data: Items) => {
     try {
@@ -65,6 +72,7 @@ export function App() {
         <Aside />
         <Table
           data={data}
+          columns={columns}
           handleAdd={handleAdd}
           handleEdit={handleEdit}
           handleDelete={handleDelete}

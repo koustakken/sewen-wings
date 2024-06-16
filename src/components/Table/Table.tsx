@@ -5,6 +5,7 @@ import './Table.style.scss'
 
 interface TableProps {
   data: Items[]
+  columns: { key: string; title: string }[]
   handleAdd: (id: number, data: Items) => void
   handleDelete: (id: number) => void
   handleEdit: (id: number, data: Items) => void
@@ -12,6 +13,7 @@ interface TableProps {
 
 export default function Table({
   data = [],
+  columns,
   handleAdd,
   handleDelete,
   handleEdit,
@@ -24,16 +26,21 @@ export default function Table({
           <thead>
             <tr>
               <th>Уровень</th>
-              <th>Наименование работ</th>
-              <th>Основная з/п</th>
-              <th>Оборудование</th>
-              <th>Накладные расходы</th>
-              <th>Сметная прибыль</th>
+              {columns.map((column) => (
+                <th key={column.key}>{column.title}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
             {data.map((data) =>
-              Row({ data, level: 0, handleAdd, handleDelete, handleEdit })
+              Row({
+                data,
+                level: 0,
+                handleAdd,
+                handleDelete,
+                handleEdit,
+                columns,
+              })
             )}
           </tbody>
         </table>

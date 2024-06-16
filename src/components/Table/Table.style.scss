@@ -1,0 +1,18 @@
+.content {
+  background: var(--main-bg-color);
+  width: 100%;
+
+  .table-header {
+    padding: 11px 15px;
+    font-size: 18px;
+    line-height: 21.09px;
+    color: var(--main-text-color);
+    border-right: 1px solid var(--grey);
+    width: fit-content;
+  }
+
+  .table-content {
+    border-top: 1px solid var(--grey);
+    background: var(--secondary-bg-color);
+  }
+}

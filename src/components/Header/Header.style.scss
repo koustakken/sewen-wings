@@ -1,0 +1,30 @@
+.header {
+  width: 100%;
+  background: var(--main-bg-color);
+  height: var(--header-height);
+  color: var(--main-text-color);
+
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 10px 20px;
+
+  .header-icons {
+    display: flex;
+    gap: 20px;
+  }
+
+  .header-tabs {
+    display: flex;
+    gap: 28px;
+    font-size: 14px;
+    line-height: 16.41px;
+    color: var(--secondary-text-color);
+  }
+
+  border-bottom: 1px solid var(--grey);
+}
+
+.active-tab {
+  color: var(--main-text-color);
+}

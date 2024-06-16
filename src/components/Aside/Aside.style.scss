@@ -30,8 +30,13 @@
   }
 
   .aside-item {
+    cursor: pointer;
     padding: 7.75px 22.75px;
     display: flex;
     gap: 16.75px;
+
+    &:hover {
+      background: var(--grey);
+    }
   }
 }

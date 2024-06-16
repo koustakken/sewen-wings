@@ -1,6 +1,7 @@
 .content {
   background: var(--main-bg-color);
   width: 100%;
+  height: calc(100vh - var(--header-height));
 
   .table-header {
     padding: 11px 15px;
@@ -14,5 +15,51 @@
   .table-content {
     border-top: 1px solid var(--grey);
     background: var(--secondary-bg-color);
+    padding: 0 10px;
+
+    .table {
+      color: var(--main-text-color);
+      width: 100%;
+      border-collapse: collapse;
+      thead {
+        tr {
+          th {
+            text-align: start;
+            font-size: 14px;
+            line-height: 18.2px;
+            color: var(--secondary-text-color);
+            font-weight: 400;
+            height: 50px;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          height: 60px;
+          border-top: 1px solid var(--grey);
+        }
+      }
+    }
+  }
+}
+
+.row-action {
+  .file {
+    display: flex;
+    width: fit-content;
+    min-width: 61px;
+    gap: 7px;
+    padding: 6px 7px;
+    &.editable {
+      img {
+        cursor: pointer;
+      }
+      &:hover {
+        width: fit-content;
+        border-radius: 6px;
+        background: var(--grey);
+      }
+    }
   }
 }

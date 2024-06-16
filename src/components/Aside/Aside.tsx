@@ -30,7 +30,7 @@ export default function Aside() {
       </div>
       <div className="aside-content">
         {projects.map((project) => (
-          <div className="aside-item">
+          <div className="aside-item" key={project.name}>
             <Icon src={project.icon} alt={project.name} />
             <span>{project.name}</span>
           </div>

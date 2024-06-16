@@ -84,3 +84,12 @@
     background: var(--main-text-color);
   }
 }
+
+input {
+  background: none;
+  outline: none;
+  border: 1px solid var(--grey);
+  border-radius: 6px;
+  padding: 10px;
+  color: var(--main-text-color);
+}

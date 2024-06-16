@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Header, Aside, Table } from './components'
+import { Items } from './components/Table/Table.types'
 
 import {
   LocalStorageService,
@@ -10,6 +11,31 @@ import './App.style.scss'
 
 export function App() {
   const [data, setData] = useState([])
+
+  const handleAdd = async (id: number, data: Items) => {
+    try {
+      console.log('@add', data)
+    } catch (error) {
+      console.error('Error deleting row:', error)
+    }
+  }
+
+  const handleDelete = async (id: number) => {
+    try {
+      console.log('@delete', id)
+    } catch (error) {
+      console.error('Error deleting row:', error)
+    }
+  }
+
+  const handleEdit = async (id: number, data: Items) => {
+    try {
+      console.log('@edit', id, data)
+    } catch (error) {
+      console.error('Error deleting row:', error)
+    }
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       let storageData = LocalStorageService.getItem('data')
@@ -37,7 +63,12 @@ export function App() {
       <Header />
       <div className="container">
         <Aside />
-        <Table data={data} />
+        <Table
+          data={data}
+          handleAdd={handleAdd}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
       </div>
     </>
   )

@@ -1,13 +1,21 @@
-import { Row } from '../Row'
+import { Row } from './Row'
 import { Items } from './Table.types'
 
 import './Table.style.scss'
 
 interface TableProps {
   data: Items[]
+  handleAdd: (id: number, data: Items) => void
+  handleDelete: (id: number) => void
+  handleEdit: (id: number, data: Items) => void
 }
 
-export default function Table({ data = [] }: TableProps) {
+export default function Table({
+  data = [],
+  handleAdd,
+  handleDelete,
+  handleEdit,
+}: TableProps) {
   return (
     <div className="content">
       <div className="table-header">Строительно-монтажные работы</div>
@@ -23,7 +31,11 @@ export default function Table({ data = [] }: TableProps) {
               <th>Сметная прибыль</th>
             </tr>
           </thead>
-          <tbody>{data.map((data) => Row(data))}</tbody>
+          <tbody>
+            {data.map((data) =>
+              Row({ data, level: 0, handleAdd, handleDelete, handleEdit })
+            )}
+          </tbody>
         </table>
       </div>
     </div>

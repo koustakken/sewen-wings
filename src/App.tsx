@@ -6,13 +6,16 @@ import { getList } from './requests/getList'
 import './App.style.scss'
 
 export function App() {
-  const [data, setData] = useState([])
+  const localStorageData = localStorage.getItem('data')
+  const [data, setData] = useState(
+    localStorageData ? JSON.parse(localStorageData) : []
+  )
 
   useEffect(() => {
     getList()
       .then((data) => setData(data))
       .catch((err) => console.log(err))
-  }, [])
+  }, [localStorageData])
 
   return (
     <>

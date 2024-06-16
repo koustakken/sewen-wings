@@ -2,6 +2,8 @@ import React from 'react'
 import { useState } from 'react'
 import { Icon } from '../Icon'
 
+import { deleteRow, addRow } from '../../requests'
+
 import './Table.style.scss'
 
 interface TableProps {
@@ -20,6 +22,31 @@ export default function Table({ data = [] }: TableProps) {
     setHoveredRow(null)
   }
 
+  // Delete row
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteRow(id)
+      const dataFromLocalStorage = localStorage.getItem('data')
+      if (dataFromLocalStorage?.length) {
+        const updatedData = JSON.parse(dataFromLocalStorage).filter(
+          (item: any) => item.id !== id
+        )
+        localStorage.setItem('data', JSON.stringify(updatedData))
+      }
+    } catch (error) {
+      console.error('Error deleting row:', error)
+    }
+  }
+
+  // Add row
+  const handleAdd = async (id: number, data: any) => {
+    try {
+      console.log(data)
+    } catch (error) {
+      console.error('Error deleting row:', error)
+    }
+  }
+
   const renderRows = (data: any, level = 0) => {
     return (
       <React.Fragment key={data.id}>
@@ -35,11 +62,15 @@ export default function Table({ data = [] }: TableProps) {
                 <Icon
                   src={'./assets/icons/file.svg'}
                   alt={'file'}
-                  onClick={() => console.log(data)}
+                  onClick={() => handleAdd(data.id, data)}
                 />
               </span>
               {hoveredRow === data.id && editable && (
-                <Icon src={'./assets/icons/trash.svg'} alt={'trash'} />
+                <Icon
+                  src={'./assets/icons/trash.svg'}
+                  alt={'trash'}
+                  onClick={() => handleDelete(data.id)}
+                />
               )}
             </div>
           </td>

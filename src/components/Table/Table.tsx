@@ -1,11 +1,17 @@
+import React from 'react'
 import { useState } from 'react'
 import { Icon } from '../Icon'
 
 import './Table.style.scss'
 
-export default function Table() {
+interface TableProps {
+  data: any
+}
+
+export default function Table({ data = [] }: TableProps) {
   const [editable, setEditable] = useState(true)
   const [hoveredRow, setHoveredRow] = useState(null)
+
   const handleMouseEnter = (index: any) => {
     setHoveredRow(index)
   }
@@ -13,16 +19,41 @@ export default function Table() {
   const handleMouseLeave = () => {
     setHoveredRow(null)
   }
-  const testData = [
-    {
-      level: 0,
-      rowName: 'Южная строительная площадка',
-      salary: '20 348',
-      eqipment: '1 750',
-      overheads: '108,07',
-      estimatedProfit: '1 209 122,5',
-    },
-  ]
+
+  const renderRows = (data: any, level = 0) => {
+    return (
+      <React.Fragment key={data.id}>
+        <tr key={data.id}>
+          <td className="row-action">
+            <div
+              onMouseEnter={() => handleMouseEnter(data.id)}
+              onMouseLeave={handleMouseLeave}
+              className={'file' + (editable ? ' editable' : '')}
+              style={{ paddingLeft: `${20 * level}px` }}
+            >
+              <span className={data?.level !== 0 ? 'node-child' : ''}>
+                <Icon
+                  src={'./assets/icons/file.svg'}
+                  alt={'file'}
+                  onClick={() => console.log(data)}
+                />
+              </span>
+              {hoveredRow === data.id && editable && (
+                <Icon src={'./assets/icons/trash.svg'} alt={'trash'} />
+              )}
+            </div>
+          </td>
+          <td>{data.rowName}</td>
+          <td>{data.salary}</td>
+          <td>{data.eqipment}</td>
+          <td>{data.overheads}</td>
+          <td>{data.estimatedProfit}</td>
+        </tr>
+        {data.child &&
+          data.child.map((child: any) => renderRows(child, level + 1))}
+      </React.Fragment>
+    )
+  }
 
   return (
     <div className="content">
@@ -39,33 +70,7 @@ export default function Table() {
               <th>Сметная прибыль</th>
             </tr>
           </thead>
-          <tbody>
-            {testData.map((data, index) => (
-              <tr key={data.level}>
-                <td className="row-action">
-                  <div
-                    onMouseEnter={() => handleMouseEnter(index)}
-                    onMouseLeave={handleMouseLeave}
-                    className={'file' + (editable ? ' editable' : '')}
-                  >
-                    <Icon
-                      src={'./assets/icons/file.svg'}
-                      alt={'file'}
-                      onClick={() => console.log(data)}
-                    />
-                    {hoveredRow === index && editable && (
-                      <Icon src={'./assets/icons/trash.svg'} alt={'trash'} />
-                    )}
-                  </div>
-                </td>
-                <td>{data.rowName}</td>
-                <td>{data.salary}</td>
-                <td>{data.eqipment}</td>
-                <td>{data.overheads}</td>
-                <td>{data.estimatedProfit}</td>
-              </tr>
-            ))}
-          </tbody>
+          <tbody>{data.map((data: any) => renderRows(data))}</tbody>
         </table>
       </div>
     </div>

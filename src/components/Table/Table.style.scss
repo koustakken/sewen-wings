@@ -45,10 +45,9 @@
 }
 
 .row-action {
+  min-width: 61px;
   .file {
     display: flex;
-    width: fit-content;
-    min-width: 61px;
     gap: 7px;
     padding: 6px 7px;
     &.editable {
@@ -61,5 +60,27 @@
         background: var(--grey);
       }
     }
+  }
+}
+
+.node-child {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    top: -175%;
+    left: -40%;
+    height: 230%;
+    width: 2px;
+    background: var(--main-text-color);
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -40%;
+    height: 2px;
+    width: 50%;
+    background: var(--main-text-color);
   }
 }

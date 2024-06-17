@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Icon } from '../../Icon'
 import { Items } from '../Table.types'
 import { Cell } from '../Cell'
@@ -15,7 +14,7 @@ interface RowProps {
   handleEdit: (id: number, data: Items) => void
 }
 
-export default function renderRows(props: RowProps) {
+export default function Row(props: RowProps) {
   const {
     data,
     level = 0,
@@ -24,6 +23,7 @@ export default function renderRows(props: RowProps) {
     handleEdit,
     columns,
   } = props
+
   const [hoveredRow, setHoveredRow] = useState(null)
   const [editingData, setEditingData] = useState({ ...data })
   const [editableField, setEditableField] = useState<number | null>(null)
@@ -59,7 +59,7 @@ export default function renderRows(props: RowProps) {
   }
 
   return (
-    <React.Fragment key={data.id}>
+    <>
       <tr
         key={data.id}
         onDoubleClick={() => handleDoubleClick(data.id)}
@@ -69,7 +69,7 @@ export default function renderRows(props: RowProps) {
           <div
             onMouseEnter={() => handleMouseEnter(data.id)}
             onMouseLeave={handleMouseLeave}
-            className={'file' + (editableField !== null ? ' editable' : '')}
+            className={'file' + (editableField === null ? ' editable' : '')}
             style={{ paddingLeft: `${20 * level}px` }}
           >
             <span className={data?.level !== 0 ? 'node-child' : ''}>
@@ -79,7 +79,7 @@ export default function renderRows(props: RowProps) {
                 onClick={() => handleAdd(data.id, data)}
               />
             </span>
-            {hoveredRow === data.id && editableField !== null && (
+            {hoveredRow === data.id && editableField === null && (
               <Icon
                 src={'./assets/icons/trash.svg'}
                 alt={'trash'}
@@ -100,16 +100,17 @@ export default function renderRows(props: RowProps) {
         ))}
       </tr>
       {data.child &&
-        data.child.map((child: any) =>
-          renderRows({
-            data: child,
-            level: level + 1,
-            handleAdd,
-            handleDelete,
-            handleEdit,
-            columns,
-          })
-        )}
-    </React.Fragment>
+        data.child.map((child) => (
+          <Row
+            key={child.id}
+            data={child}
+            level={level + 1}
+            handleAdd={handleAdd}
+            handleDelete={handleDelete}
+            handleEdit={handleEdit}
+            columns={columns}
+          />
+        ))}
+    </>
   )
 }

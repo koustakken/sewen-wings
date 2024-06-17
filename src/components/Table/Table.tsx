@@ -1,4 +1,4 @@
-import { Row } from './Row'
+import Row from './Row/Row'
 import { Items } from './Table.types'
 
 import './Table.style.scss'
@@ -32,16 +32,17 @@ export default function Table({
             </tr>
           </thead>
           <tbody>
-            {data.map((data) =>
-              Row({
-                data,
-                level: 0,
-                handleAdd,
-                handleDelete,
-                handleEdit,
-                columns,
-              })
-            )}
+            {data.map((rowData) => (
+              <Row
+                key={rowData.id}
+                data={rowData}
+                level={rowData?.level || 0}
+                handleAdd={handleAdd}
+                handleDelete={handleDelete}
+                handleEdit={handleEdit}
+                columns={columns}
+              />
+            ))}
           </tbody>
         </table>
       </div>

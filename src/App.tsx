@@ -7,10 +7,13 @@ import {
   DataService,
 } from './components/Table/Table.service'
 
+import { recursivelyDeleteItem } from './helpers/recursiveDelete'
+
 import './App.style.scss'
 
 export function App() {
-  const [data, setData] = useState([])
+  const [data, setData] = useState<Items[]>([])
+
   const columns = [
     { key: 'rowName', title: 'Наименование работ' },
     { key: 'salary', title: 'Основная з/п' },
@@ -29,7 +32,15 @@ export function App() {
 
   const handleDelete = async (id: number) => {
     try {
-      console.log('@delete', id)
+      // await DataService.removeItem(id)
+      const storedData = LocalStorageService.getItem('data')
+
+      if (!storedData) return
+
+      const updatedData = recursivelyDeleteItem(storedData, id)
+
+      LocalStorageService.setItem('data', updatedData)
+      setData(updatedData)
     } catch (error) {
       console.error('Error deleting row:', error)
     }
@@ -45,21 +56,21 @@ export function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      let storageData = LocalStorageService.getItem('data')
+      let storedData = LocalStorageService.getItem('data')
 
-      if (!storageData || storageData.length === 0) {
+      if (!storedData || storedData.length === 0) {
         try {
           const response = await DataService.getList()
           if (response) {
-            storageData = response
-            LocalStorageService.setItem('data', storageData)
+            storedData = response
+            LocalStorageService.setItem('data', storedData)
           }
         } catch (error) {
           console.error(error)
         }
       }
 
-      setData(storageData)
+      setData(storedData)
     }
 
     fetchData()

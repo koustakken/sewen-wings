@@ -45,19 +45,15 @@
 }
 
 .row-action {
-  min-width: 61px;
   .file {
     display: flex;
     gap: 7px;
     padding: 6px 7px;
+    min-width: 81px;
     &.editable {
       img {
         cursor: pointer;
-      }
-      &:hover {
-        width: fit-content;
-        border-radius: 6px;
-        background: var(--grey);
+        z-index: 2;
       }
     }
   }
